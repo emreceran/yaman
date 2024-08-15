@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_yaman_renk,yaman.renk,model_yaman_renk,base.group_user,1,1,1,1
+access_yaman_oda,yaman.oda,model_yaman_oda,base.group_user,1,1,1,1
+access_yaman_plastik,yaman.plastik,model_yaman_plastik,base.group_user,1,1,1,1

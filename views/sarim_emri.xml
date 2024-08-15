@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="yaman.timesheet_table">
+        <!--        <t t-set='is_uom_day' t-value='lines._is_timesheet_encode_uom_day()'/>-->
+        <div class="row mt8">
+            <div class="col-12">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-start align-middle"><span>Emirler </span></th>
+                            <!--                            <th class="text-start align-middle"><span>Employee</span></th>-->
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="lines" t-as="line" t-att-style="'background-color: #F1F1F1;' if line_index % 2 == 0 else ''">
+                            <td class="align-middle">
+                                <h4 t-field="line.name"/>
+                            </td>
+                            <!--                            <td class="align-middle">-->
+                            <!--                                <span t-field="line.user_id.partner_id.name"/>-->
+                            <!--                                <span t-if="not line.user_id.partner_id.name" t-field="line.employee_id"/>-->
+                            <!--                            </td>-->
+                            <!--                            <td t-if="show_project" class="align-middle">-->
+                            <!--                                <span t-field="line.project_id.sudo().name"/>-->
+                            <!--                            </td>-->
+                            <!--                            <td t-if="show_task" class="align-middle">-->
+                            <!--                                <span t-if="line.task_id" t-field="line.task_id.sudo().name"/>-->
+                            <!--                            </td>-->
+                            <!--                            <td class="align-middle">-->
+                            <!--                                <span t-field="line.name" t-options="{'widget': 'text'}"/>-->
+                            <!--                            </td>-->
+                            <!--                            <td class="text-end align-middle">-->
+                            <!--                                <span t-if="is_uom_day" t-esc="line._get_timesheet_time_day()" t-options="{'widget': 'timesheet_uom'}"/>-->
+                            <!--                                <span t-else="" t-field="line.unit_amount" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/>-->
+                            <!--                            </td>-->
+                        </tr>
+                        <!--                        <tr>-->
+                        <!--                            <t t-set="nbCols" t-value="4"/>-->
+                        <!--                            <t t-if="show_project" t-set="nbCols" t-value="nbCols + 1"/>-->
+                        <!--                            <t t-if="show_task" t-set="nbCols" t-value="nbCols + 1"/>-->
+                        <!--                            <td class="text-end" t-attf-colspan="{{nbCols}}">-->
+                        <!--                                <strong t-if="is_uom_day">-->
+                        <!--                                    <span style="margin-right: 15px;">Total (Days)</span>-->
+                        <!--                                    <t t-esc="lines._convert_hours_to_days(sum(lines.mapped('unit_amount')))" t-options="{'widget': 'timesheet_uom'}"/>-->
+                        <!--                                </strong>-->
+                        <!--                                <strong t-else="">-->
+                        <!--                                    <span style="margin-right: 15px;">Total (Hours)</span>-->
+                        <!--                                    <t t-esc="sum(lines.mapped('unit_amount'))" t-options="{'widget': 'duration', 'digital': True, 'unit': 'hour', 'round': 'minute'}"/>-->
+                        <!--                                </strong>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+
+    <template id="sarim_emri_customized_header">
+        <div class="header">
+            <div class="o_clean_header">
+                <div class="row" style="font-family:'Roboto',sans-serif">
+                    <div class="col-7">
+                        <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" alt="Logo"
+                        />
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </template>
+
+
+
+    <template id="report_timesheet">
+        <t t-call="web.html_container">
+            <t t-call="yaman.sarim_emri_customized_header"/>
+            <!--            <t t-lang="doc.partner_id.lang" />-->
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">
+                    <!--                <t t-set="company" t-value="docs.company_id if len(docs) == 1 else docs.env.company"/>-->
+                    <!--                <t t-set="show_task" t-value="bool(docs.task_id)"/>-->
+                    <!--                <t t-set="show_project" t-value="len(docs.id) > 1"/>-->
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row mt8">
+                            <div class="col-lg-12">
+                                <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
+
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <!--                                            <th colspan="2">ALICI / TO</th>-->
+                                            <th colspan="2">SARIM EMRİ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Müşteri : </td>
+                                            <td><t t-esc="doc.partner_id.name"/></td>
+                                            <td>Sipariş Tarihi :</td>
+                                            <td><span t-esc="doc['create_date'].strftime('%d-%m -%Y')"/></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>Kasa Tipi :  </td>
+                                            <td><t t-esc="{'1': 'DÜZ','2': 'BOMBE'}[doc.kasa_tipi]"/></td>
+                                            <td>Yüzey Tipi :  </td>
+                                            <td><t t-esc="{'1': 'PVC', '2': 'LAKE', '3': 'MELAMİN', '4': 'LAMİNANT'}[doc.seren_tipi]"/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Seren Tipi :  </td>
+                                            <td><t t-esc="{ '1': 'AĞAÇ', '2': 'MDF'}[doc.seren_tipi]"/></td>
+                                            <td>Kasa Rengi :  </td>
+                                            <td><t t-esc="doc.kasa_rengi.name"/></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>Yüzey Rengi :  </td>
+                                            <td><t t-esc="doc.yuzey_rengi.name"/></td>
+                                            <td>Pervaz Rengi :  </td>
+                                            <td><t t-esc="doc.pervaz_rengi.name"/></td>
+                                        </tr>
+
+
+
+
+
+
+
+                                    </tbody>
+                                </table>
+                                <h2>
+                                    <span> <t t-out="doc.name"/> Projesi için Sarım Emirleri :
+                                    </span>
+                                </h2>
+                            </div>
+                        </div>
+
+                        <t t-set="lines" t-value="docs._pervaz_emirleri_getir()"/>
+                        <!--                    <t t-foreach="lines_to_report" t-as="line">-->
+                        <h4> Pervaz Emirleri : </h4>
+                        <t t-call="yaman.timesheet_table"/>
+
+                        <t t-set="lines" t-value="docs._kas_emirleri_getir()"/>
+
+                        <h4> Kasa Emirleri : </h4>
+                        <!--                    <t t-foreach="lines_to_report" t-as="line">-->
+                        <t t-call="yaman.timesheet_table"/>
+
+                        <t t-set="lines" t-value="docs._plastik_yuzey_emirleri_getir()"/>
+
+                        <h4> Plastik Yüzey Emirleri : </h4>
+                        <!--                    <t t-foreach="lines_to_report" t-as="line">-->
+                        <t t-call="yaman.timesheet_table"/>
+
+                        <t t-set="lines" t-value="docs._mdf_yuzey_emirleri_getir()"/>
+
+                        <h4> MDF Yüzey Emirleri : </h4>
+                        <!--                    <t t-foreach="lines_to_report" t-as="line">-->
+                        <t t-call="yaman.timesheet_table"/>
+
+                         <t t-set="citalar" t-value="docs.cam_citalari_getir()"/>
+
+                        <p>
+                            Gerekli cam çıtası : <t t-out="citalar[0]"/>
+                        </p>
+
+                        <p>
+                            Gerekli klepa çıtası : <t t-out="citalar[1]"/>
+                        </p>
+
+                        <p>
+                            Gerekli bini çıtası : <t t-out="citalar[2]"/>
+                        </p>
+
+                        <p>
+                            Toplam süpürge adeti : <t t-out="doc.supurge_adet"/>
+                        </p>
+
+
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+
+    </template>
+
+
+    <record id="sarim_emri_paperformat" model="report.paperformat">
+        <field name="name">Customized Paper Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">22</field>
+        <field name="dpi">90</field>
+    </record>
+
+
+
+
+
+
+
+    <record id="timesheet_report_project" model="ir.actions.report">
+        <field name="name">Sarım Emri</field>
+        <field name="model">project.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">yaman.report_timesheet</field>
+        <field name="report_file">report_timesheet</field>
+        <field name="binding_model_id" ref="model_project_project"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="yaman.sarim_emri_paperformat"/>
+    </record>
+
+
+</odoo>

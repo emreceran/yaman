@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="task_form_inherit_view">
+        <field name="name">task.form.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <group>
+                    <field name="kasa_eni" />
+                    <field name="en" />
+                    <field name="boy" />
+                </group>
+                <group>
+                    <field name="adet" />
+                    <field name="tip" />
+                    <field name="oda"/>
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="task_tree_inherit_view">
+        <field name="name">task.tree.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='id']" position="attributes">
+                <attribute name="invisible">1</attribute>/>
+            </xpath>
+
+            <xpath expr="//field[@name='milestone_id']" position="attributes">
+                <attribute name="invisible">1</attribute>/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+
+                <field name="plastik" />
+                <field name="kasa_eni" />
+                <field name="en" />
+                <field name="boy" />
+
+                <field name="adet" />
+                <field name="tip" />
+                <field name="oda"/>
+                <field name="pop" optional="hide"/>
+                <field name="pap" optional="hide"/>
+                <field name="pbpo" optional="hide"/>
+                <field name="pbpa" optional="hide"/>
+
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+
+</odoo>
