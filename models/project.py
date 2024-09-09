@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import math, collections
-import pandas as pd
+
 
 
 
@@ -342,15 +342,25 @@ class Project(models.Model):
         kucukenli_gorevler = []
         buyukenli_gorevler = []
 
+        """"tüm üretim emirleri küçükenli ve büyükenli olacak şeilde ikiye ayrılır
+        görevn eni 100cmden büyükse büyükenli denir"""
+
         for gorev in gorevler:
             if gorev.en > 100:
                 buyukenli_gorevler.append(gorev)
             else:
                 kucukenli_gorevler.append(gorev)
 
+
+        """kasa boylaarı ikiye ayrılır küçük ve büyük enlilerin set yapmaamız tekrarlyan
+        değerleri teke indirmek için çünkü aynı kasa emirlerini birleyecez"""
         kucukenli_kasa_boylari = set([a.kasa_eni for a in kucukenli_gorevler])
         buyukenli_kasa_boylari = set([a.kasa_eni for a in buyukenli_gorevler])
 
+
+
+        """küçükenli listesi oluşturulur boş liste aşağıdaki for döngüü içinde aynı
+        kasaenine sahip görevlerin adetleri toplanıor boy, adet] olarak listeye yazılır """
         kucuk_adetler = []
 
         for boy in kucukenli_kasa_boylari:
@@ -360,6 +370,8 @@ class Project(models.Model):
                 if gorev.kasa_eni == boy:
                     adet += gorev.adet
             kucuk_adetler.append([boy, adet])
+
+        """büyükenli adetler küçükenlide olduğu gibi toplanır"""
 
         buyuk_adetler = []
 
@@ -372,12 +384,23 @@ class Project(models.Model):
                     adet += gorev.adet
             buyuk_adetler.append([boy, adet])
 
+        """kasa emirleri oluşturuyoruz...
+        küçük_adetler listesindeki her bir eleman sat[1] ile adeti çağrılır bu adet 2.5 ile çarpılıp üste yuarlanır.
+        aynı proje_id seçilir proje içinde olsun diye,
+        plaanned_hours üretimi takip etmek için kullanılacak planaanlanan saatler
+         yerine üretilenmiktarlar girilecek,
+         görrevin plastik olup olmadığı belirtilir,
+         isim olarak "KASA" + str(sta[0]) + " cm " + str(math.ceil(sta[1] * 2.5)) + " Adet"  değeri verilir"""
+
+
         for sta in kucuk_adetler:
             self.env['project.task'].create({'project_id': self.id, 'planned_hours':math.ceil(sta[1] * 2.5),
                                              'stage_id': sarma_emri_stage_id, 'plastik':plastik,
                                              'name': "KASA" + str(sta[0]) + " cm " + str(
                                                  math.ceil(sta[1] * 2.5)) + " Adet"})
 
+        """küçükenlinin üretildiği gibi büyükenliler de üretilir tek fark 
+        2.5 değil 3 ile çarpılır"""
         for sta in buyuk_adetler:
             self.env['project.task'].create({'project_id': self.id, 'planned_hours':math.ceil(sta[1] * 3),
                                              'stage_id': sarma_emri_stage_id, 'plastik':plastik,
@@ -388,10 +411,13 @@ class Project(models.Model):
 
     def pervaz_emirleri(self, gorevler, sarma_emri_stage_id):
 
+
         toplam_adet = 0
+        """tüm görevlerdeki adeler toplanır"""
         for gorev in gorevler:
             toplam_adet += gorev.adet
 
+        "pervaz iç, dış ve başlık kalınlık değerli çağılır"
         pit_kalinlik = self.pit_kalinlik
         pdt_kalinlik = self.pdt_kalinlik
         pb_kalinlik = self.pb_kalinlik
@@ -399,6 +425,10 @@ class Project(models.Model):
         pd_genislik = self.pd_genislik
         pb_genislik = self.pb_genislik
 
+
+        """""pervaz iç dış ve başlık kalınlık ve genişlik değerleri karşılaştırılır
+        hepsi eşitse toplan_adet * 5 ile pervaz aadeti hesaplanır,
+        diğer satılarda kontroller yapılır eşitolmasınaa göre etler belirleenir"""
         if pit_kalinlik == pdt_kalinlik == pb_kalinlik and pi_genislik == pd_genislik == pb_genislik:
 
             self.env['project.task'].create({'project_id': self.id,'planned_hours':toplam_adet * 5,
@@ -473,6 +503,8 @@ class Project(models.Model):
     def yuzey_emirleri(self, gorevler, sarma_emri_stage_id, plastik):
         print(self, gorevler, sarma_emri_stage_id, plastik)
 
+
+        """önce görevler salma camlı ve kapalı olaak ikkiye ayrıllır"""
         scamli_gorevler = []
         kapali_gorevler = []
 
@@ -482,9 +514,11 @@ class Project(models.Model):
             elif gorev.tip == "2" or gorev.tip == "1":
                 kapali_gorevler.append(gorev)
 
+        """salma camlı enler belirlenir tekrarlayanlar iptal edenler"""
         scamli_enler = set([a.en for a in scamli_gorevler])
 
         scamlienadetler = []
+        """salma camlılardaaynı ende olan emirlerin toplaam adetlerri bulunur"""
 
         for boy in scamli_enler:
             adet = 0
@@ -493,6 +527,9 @@ class Project(models.Model):
                 if gorev.en == boy:
                     adet += gorev.adet
             scamlienadetler.append([boy, adet])
+
+        """salma camlı emirler için yüzey emirleri oluşturulru:
+        YÜZEY 18mm 210 cm (boy-5) adet*2 olarak simlenddirilir"""
 
         for i in scamlienadetler:
             self.env['project.task'].create({'project_id': self.id, 'planned_hours': i[1] * 2,
@@ -504,9 +541,10 @@ class Project(models.Model):
 
 
 
-
+        """kapalı görevlerin ennleri tekrar etmeyecek şiekilde listelebeir aynı enlileri birlemek için"""
         kapali_enler = set([a.en for a in kapali_gorevler])
 
+        """ aynı enli görrelerin toplaam adetleri belirlenir"""
         kapaliadetler = []
 
         for boy in kapali_enler:
@@ -517,6 +555,8 @@ class Project(models.Model):
                     adet += gorev.adet
             kapaliadetler.append([boy, adet])
 
+
+        """kapalı görevler YÜZEY yuzey_kalinlik mm 210 cm boy -4 cm """
         for i in kapaliadetler:
             self.env['project.task'].create({'project_id': self.id,'planned_hours': i[1] * 2,
                                              'stage_id': sarma_emri_stage_id, 'plastik':plastik,
@@ -528,7 +568,7 @@ class Project(models.Model):
 
 
 
-    def gorev(self):
+    def sarma_emri(self):
         gorevler = self.uretim_emirleri()
 
         sarma_emri_stage_id = self.env['project.task.type'].search(
@@ -907,8 +947,6 @@ class ProjectTask(models.Model):
 
 
 
-    def actipn_sarim_emri(self):
-        print("basari")
 
 
 

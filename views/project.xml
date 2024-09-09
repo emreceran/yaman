@@ -5,13 +5,13 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
-            <xpath expr="//header//button[@name='329']" position="replace">
-                <button  name="gorev" string="Sarım Emri Oluştur" type="object" class="oe_highlight"  data-hotkey="ö"/>
+            <xpath expr="//header" position="inside">
+                <button  name="sarma_emri" string="Sarım Emri Oluştur" type="object" class="oe_highlight"  data-hotkey="ö"/>
             </xpath>
-            <xpath expr="//header//button[@name='329']" position="replace">
+            <xpath expr="//header" position="inside">
                 <button  name="catim_emri" string="Çatım Emri Oluştur" type="object"  class="oe_highlight"   data-hotkey="ç"/>
             </xpath>
-            <xpath expr="//header//button[@name='catim_emri']" position="after">
+            <xpath expr="//header" position="inside">
                 <button  name="plastik_emri" string="Plastik Emri Oluştur" type="object"  class="oe_highlight"   data-hotkey="ç"/>
             </xpath>
             <xpath expr="//field[@name='user_id']" position="replace">
@@ -29,7 +29,9 @@
                 <!--                 <button  name="compute_toplam_kapi" string="toplam kapı hesapla Oluştur" type="object" />-->
                 <group>
 
+
                     <field name="partner_id" />
+
                     <field name="olcu_alan" />
                     <field name="kaydi_giren" />
                     <field name="kapi_model" />
@@ -72,23 +74,7 @@
         <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
         <field name="arch" type="xml">
 
-            <!--            <xpath expr="//div[hasclass('oe_title')]" position="after">-->
-            <!--                <div class="col-lg-6 o_setting_box">-->
-            <!--                    <div class="o_setting_left_pane">-->
-            <!--                        <label for="olcu_alan" string="Ölçüyü Alan"/>-->
-            <!--                        <field name="olcu_alan" />-->
-            <!--                        <field name="kaydi_giren"/>-->
-            <!--                    </div>-->
-            <!--                    <div class="o_setting_right_pane">-->
-            <!--                        <field name="kapi_model" />-->
-            <!--                        <field name="yuzey_tipi"/>-->
-            <!--&lt;!&ndash;                        <label for="allow_billable"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;                        <div class="text-muted" id="allow_billable_setting">&ndash;&gt;-->
-            <!--&lt;!&ndash;                            Invoice your time and material to customers&ndash;&gt;-->
-            <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </xpath>-->
+
             <xpath expr="//div[hasclass('oe_title')]" position="after">
                 <group>
 
@@ -123,20 +109,6 @@
 
 
 
-    <!--    <record model="ir.ui.view" id="task_tree_inherit">-->
-    <!--        <field name="name">project.task.tree.inherit</field>-->
-    <!--        <field name="model">project.task</field>-->
-    <!--        <field name="inherit_id" ref="project.view_task_tree2"/>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <xpath expr="//tree" position="inside">-->
-    <!--                <control>-->
-    <!--                    <create string="Add a line"/>-->
-    <!--                    <button  name="actipn_sarim_emri" string="Sarım Emri Oluştur" type="object" class="oe_highlight"  data-hotkey="ö"/>-->
-    <!--                </control>-->
-    <!--            </xpath>-->
-
-    <!--        </field>-->
-    <!--    </record>-->
 
 </odoo>
 
