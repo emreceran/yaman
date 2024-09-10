@@ -173,6 +173,24 @@ class Project(models.Model):
 
         return gorevler
 
+
+    def _tum_yuzey_emirleri_getir(self):
+
+        tasks = self.task_ids
+        sarma_emri_stage_id = self.env['project.task.type'].search(
+            [('project_ids', 'in', self.id), ('name', 'like', "SARMA EMRİ")], limit=1).id
+
+
+        gorevler = []
+        for gorev in tasks:
+
+
+            if gorev.stage_id.id == sarma_emri_stage_id and 'YÜZEY' in gorev.name and gorev.plastik=='1':
+                gorevler.append(gorev)
+
+        return gorevler
+
+
     def _plastik_yuzey_emirleri_getir(self):
 
         tasks = self.task_ids
@@ -538,6 +556,13 @@ class Project(models.Model):
                                                  i[0] - 5) + " cm  " + str(
                                                  i[1] * 2) + " Adet"})
 
+        # for i in scamlienadetler:
+        #     self.env['project.task'].create({'project_id': self.id, 'planned_hours': i[1] * 2,
+        #                                      'stage_id': sarma_emri_stage_id,
+        #                                      'name': "YÜZEY 18mm " + str(210) + " cm " + str(
+        #                                          i[0] - 5) + " cm  " + str(
+        #                                          i[1] * 2) + " Adet"})
+        #
 
 
 
@@ -563,6 +588,15 @@ class Project(models.Model):
                                              'name': "YÜZEY  " + str(self.yuzey_kalinlik) + " mm " + str(210) + " cm " + str(
                                                  i[0] - 4) + " cm  " + str(
                                                  i[1] * 2) + " Adet"})
+
+
+        # for i in kapaliadetler:
+        #     self.env['project.task'].create({'project_id': self.id,'planned_hours': i[1] * 2,
+        #                                      'stage_id': sarma_emri_stage_id,
+        #                                      'name': "YÜZEY  " + str(self.yuzey_kalinlik) + " mm " + str(210) + " cm " + str(
+        #                                          i[0] - 4) + " cm  " + str(
+        #                                          i[1] * 2) + " Adet"})
+
 
 
 

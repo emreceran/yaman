@@ -70,7 +70,7 @@
                                             <td>Kapı MOdeli :  </td>
                                             <td><t t-esc="doc.kapi_model"/></td>
                                             <td>Yüzey Tipi :  </td>
-                                            <td><t t-esc="{'1': 'PVC', '2': 'LAKE', '3': 'MELAMİN', '4': 'LAMİNANT'}[doc.seren_tipi]"/></td>
+                                            <td><t t-esc="{'1': 'PVC', '2': 'LAKE', '3': 'MELAMİN', '4': 'LAMİNANT'}[doc.yuzey_tipi]"/></td>
                                         </tr>
 
                                         <tr>
