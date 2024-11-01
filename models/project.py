@@ -35,7 +35,7 @@ class Project(models.Model):
     _description = 'yaman.yaman'
 
 
-    olcu_alan = fields.Many2one('res.users', string='Ölçüyü Al', index=True)
+    olcu_alan = fields.Many2one('res.users', string='Ölçüyü Alan', index=True)
     kaydi_giren = fields.Many2one('res.users', string="Kaydı Giren", index=True)
     kapi_model = fields.Char(string="Kapı Modeli")
     yuzey_tipi = fields.Selection([

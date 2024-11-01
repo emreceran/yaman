@@ -97,10 +97,14 @@
                         <h2> CNC Emirleri</h2>
                         <t t-set="lines" t-value="docs.CNC_emirleri_getir()"/>
 
-                        <img t-if="doc.image1" t-att-src="image_data_uri(doc.image1)" alt="Image 1" />
-                        <img t-if="doc.image2" t-att-src="image_data_uri(doc.image2)" alt="Image 2" />
-                        <img t-if="doc.image2" t-att-src="image_data_uri(doc.image2)" alt="Image 2" />
                         <t t-call="yaman.timesheet_table"/>
+                        <div class="container">
+                            <div class="row">
+                                <img class="col-6" t-if="doc.image1" t-att-src="image_data_uri(doc.image1)" alt="Image 1" />
+                                <img class="col-6" t-if="doc.image2" t-att-src="image_data_uri(doc.image2)" alt="Image 2" />
+                            </div>
+                        </div>
+                        
                         <div class="oe_structure"/>
                     </div>
                 </t>
