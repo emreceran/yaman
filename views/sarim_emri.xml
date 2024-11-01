@@ -105,12 +105,12 @@
                                             <td><span t-esc="doc['create_date'].strftime('%d-%m -%Y')"/></td>
                                         </tr>
 
-
+1
                                         <tr>
                                             <td>Kasa Tipi :  </td>
                                             <td><t t-esc="{'1': 'DÜZ','2': 'BOMBE'}[doc.kasa_tipi]"/></td>
                                             <td>Yüzey Tipi :  </td>
-                                            <td><t t-esc="{'1': 'PVC', '2': 'LAKE', '3': 'MELAMİN', '4': 'LAMİNANT'}[doc.yuzey_tipi]"/></td>
+                                            <td><t t-e1sc="{'1': 'PVC', '2': 'LAKE', '3': 'MELAMİN', '4': 'LAMİNANT'}[doc.yuzey_tipi]"/></td>
                                         </tr>
 
                                         <tr>

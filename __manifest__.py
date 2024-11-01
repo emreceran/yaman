@@ -31,6 +31,7 @@
         'views/task.xml',
         'views/sarim_emri.xml',
         'views/catim_emri.xml',
+        'views/CNC_emri.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

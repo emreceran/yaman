@@ -5,9 +5,7 @@
             <div class="col-12">
                 <table class="table table-sm">
                     <thead>
-                        <tr>
-                
-                        </tr>
+                        <tr></tr>
                     </thead>
                     <tbody>
                         <tr t-foreach="lines" t-as="line" t-att-style="'background-color: #F1F1F1;' if line_index % 2 == 0 else ''">
@@ -21,7 +19,7 @@
         </div>
     </template>
 
-    <template id="catim_emri_customized_header">
+    <template id="CNC_emri_customized_header">
         <div class="header">
             <div class="o_clean_header">
                 <div class="row" style="font-family:'Roboto',sans-serif">
@@ -29,33 +27,27 @@
                         <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" alt="Logo"/>
                     </div>
                     <div class="col-5" >
-                        <h2>ÇATIM EMRİ</h2>
+                        <h2>CNC EMRİ</h2>
                     </div>
                 </div>
             </div>
         </div>
     </template>
 
-
-
-    <template id="catim_emri">
+    <template id="CNC_emri">
         <t t-call="web.html_container">
-            <t t-call="yaman.catim_emri_customized_header"/>
-
+            <t t-call="yaman.CNC_emri_customized_header"/>
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.internal_layout">
-
                     <div class="page">
                         <div class="oe_structure"/>
                         <div class="row mt8">
                             <div class="col-lg-12">
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
-
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <!--                                            <th colspan="2">ALICI / TO</th>-->
-                                            <th colspan="2">ÇATIM EMRİ</th>
+                                            <th colspan="2">CNC EMRİ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,50 +86,21 @@
                                             <td>Kasa Tipi :  </td>
                                             <td><t t-esc="{'1': 'DÜZ','2': 'BOMBE'}[doc.kasa_tipi]"/></td>
                                         </tr>
-
-
-
-
-
-
                                     </tbody>
                                 </table>
                                 <h2>
-                                    <span> <t t-out="doc.name"/> Projesi için Çatım Emirleri :
-                                    </span>
+                                    <span> <t t-out="doc.name"/> Projesi için CNC Emirleri : </span>
                                 </h2>
                             </div>
                         </div>
                         <br/>
-                        <h2> Çatım Emirleri</h2>
-                        <br/>
-                        <h4>
-                            Plastik Emirler :
-                        </h4>
-                        <t t-set="lines" t-value="docs._plastik_catim_emirleri_getir()"/>
-                        <t t-call="yaman.timesheet_table"/>
-                        <br/>                       
-                        <h4>
-                            MDF Emirler :
-                        </h4>
-                        <t t-set="lines" t-value="docs._mdf_catim_emirleri_getir()"/>
-                        <t t-call="yaman.timesheet_table"/>
-                        <div class="oe_structure"/>
-                         <br/>
-                        <h2> Kasa Kesim Emirleri</h2>
-                        <br/>
-                        <h4>
-                            Plastik Emirler :
-                        </h4>
-                        <t t-set="lines" t-value="docs._plastik_kesim_emirleri_getir()"/>
-                        <t t-call="yaman.timesheet_table"/>
-                        <br/>
-                        <h4>
-                            MDF Emirler :
-                        </h4>
-                        <t t-set="lines" t-value="docs._mdf_kesim_emirleri_getir()"/>
-                        <t t-call="yaman.timesheet_table"/>
+                        <h2> CNC Emirleri</h2>
+                        <t t-set="lines" t-value="docs.CNC_emirleri_getir()"/>
 
+                        <img t-if="doc.image1" t-att-src="image_data_uri(doc.image1)" alt="Image 1" />
+                        <img t-if="doc.image2" t-att-src="image_data_uri(doc.image2)" alt="Image 2" />
+                        <img t-if="doc.image2" t-att-src="image_data_uri(doc.image2)" alt="Image 2" />
+                        <t t-call="yaman.timesheet_table"/>
                         <div class="oe_structure"/>
                     </div>
                 </t>
@@ -146,7 +109,7 @@
     </template>
 
 
-    <record id="catim_emri_paperformat" model="report.paperformat">
+    <record id="CNC_emri_paperformat" model="report.paperformat">
         <field name="name">Customized Paper Format</field>
         <field name="default" eval="True"/>
         <field name="format">custom</field>
@@ -162,20 +125,14 @@
         <field name="dpi">90</field>
     </record>
 
-
-
-
-
-    <record id="catim_emri_report" model="ir.actions.report">
-        <field name="name">Çatım Emri</field>
+    <record id="CNC_emri_report" model="ir.actions.report">
+        <field name="name">CNC Emri</field>
         <field name="model">project.project</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">yaman.catim_emri</field>
-        <field name="report_file">catim_emri</field>
+        <field name="report_name">yaman.CNC_emri</field>
+        <field name="report_file">CNC_emri</field>
         <field name="binding_model_id" ref="model_project_project"/>
         <field name="binding_type">report</field>
-        <field name="paperformat_id" ref="yaman.catim_emri_paperformat"/>
+        <field name="paperformat_id" ref="yaman.CNC_emri_paperformat"/>
     </record>
-
-
 </odoo>

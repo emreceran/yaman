@@ -12,6 +12,9 @@
                 <button  name="catim_emri" string="Çatım Emri Oluştur" type="object"  class="oe_highlight"   data-hotkey="ç"/>
             </xpath>
             <xpath expr="//header" position="inside">
+                <button  name="cnc_emri" string="CNC Emri Oluştur" type="object"  class="oe_highlight"   data-hotkey="ç"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
                 <button  name="plastik_emri" string="Plastik Emri Oluştur" type="object"  class="oe_highlight"   data-hotkey="ç"/>
             </xpath>
             <xpath expr="//field[@name='user_id']" position="replace">
@@ -20,6 +23,12 @@
                 <field name="kapali_toplam_kapi" />
                 <field name="scamli_toplam_kapi" />
                 <field name="citacamli_toplam_kapi" />
+                <field name="surgulu_kapali_toplam_kapi" />
+                <field name="surgulu_citacamli_toplam_kapi" />
+                <field name="surgulu_scamli_toplam_kapi" />
+                <field name="sadece_kapali_toplam_kapi" />
+                <field name="sadece_citacamli_toplam_kapi" />
+                <field name="sadece_scamli_toplam_kapi" /> 
 
 
             </xpath>
